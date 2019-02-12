@@ -124,6 +124,6 @@ builder.add(function testBatchGetBadKey(test) {
         test.fail('Expected error')
     })
     .fail(function (err) {
-      if (err.message != 'Invalid dynamo value. Type: object, Value: [object Object]') throw err
+      if (err.message != 'Provided list of item keys contains duplicates') throw err
     })
 })

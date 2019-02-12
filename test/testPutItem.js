@@ -56,6 +56,29 @@ builder.add(function testSimplePut(test) {
   })
 })
 
+
+builder.add(function testPutItemWithMapTypeValues(test) {
+  var self = this
+  return this.client.putItem("user", {
+    userId: 'userB',
+    column: '@',
+    age: 30,
+    meta: {
+      createdDate:1549996580376,
+      updatedDate: 1549996580376
+    }
+  })
+  .execute()
+  .then(function () {
+    return utils.getItemWithSDK(self.db, "userB", "@")
+  })
+  .then(function (data) {
+    test.equal(data['Item']['age'].N, "30", "Age should be set")
+    test.equal(data['Item']['meta'].M['createdDate'].N,"1549996580376", "createdDate should be set")
+  })
+})
+
+
 builder.add(function testPutItemWithReturnValuesNone(test) {
   var self = this
   return this.client.putItem("user", {
